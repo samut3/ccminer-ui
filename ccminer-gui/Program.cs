@@ -15,7 +15,7 @@ namespace ccminer_gui
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Miner());
 
-            // TEST
+            // TEST2
         }
     }
 }
