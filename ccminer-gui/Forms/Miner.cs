@@ -81,12 +81,6 @@ namespace ccminer_gui
         private string _path = Path.Combine(Environment.CurrentDirectory, "guiminer.conf");
         private BinaryFormatter _bin = new BinaryFormatter();
 
-        private Series _hashrateSeries;
-        private Series _difficultySeries;
-
-        private Series _acceptedSeries;
-        private Series _staleSeries;
-
         private void SetupUI()
         {
             // Set all algorithms.
@@ -268,8 +262,6 @@ namespace ccminer_gui
                 chaStat.Series[1].Points.Add(new DataPoint(time.ToOADate(), rejectedShares));
             }
 
-            chaStat.Series[4].Points.Add(new DataPoint(time.ToOADate(), Convert.ToInt32(report.StratumDifficulty)));
-
             int count = chaStat.Series[0].Points.Count;
             int start = chaStat.Series[0].Points.Count - 5;
 
@@ -293,7 +285,10 @@ namespace ccminer_gui
 
             foreach (Series ser in chaStat.Series)
             {
-
+                while (ser.Points.Count > 60)
+                {
+                    ser.Points.RemoveAt(0);
+                }
             }
 
 
