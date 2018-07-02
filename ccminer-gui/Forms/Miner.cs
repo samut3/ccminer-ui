@@ -2,15 +2,23 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml.Serialization;
+using System.Net;
+using Newtonsoft.Json;
+using System.Globalization;
+using System.Diagnostics;
 
 namespace ccminer_gui
 {
     public partial class Miner : Form
     {
+        int lastAcceptedShares;
+        int lastRejectedShares;
+
         public Miner()
         {
             InitializeComponent();
@@ -51,6 +59,7 @@ namespace ccminer_gui
                 blockDifficultyLabel.Text = report.BlockDifficulty.ToString();
                 stratumDifficultyLabel.Text = report.StratumDifficulty.ToString();
                 blockLabel.Text = report.Block.ToString();
+                pingLabel.Text = report.Ping.ToString() + " ms";
             }));
         }
 
@@ -71,7 +80,7 @@ namespace ccminer_gui
 
         private string _path = Path.Combine(Environment.CurrentDirectory, "guiminer.conf");
         private BinaryFormatter _bin = new BinaryFormatter();
-        
+
         private Series _hashrateSeries;
         private Series _difficultySeries;
 
@@ -95,6 +104,7 @@ namespace ccminer_gui
                 usernameBox.Text = dc.Username;
                 passwordBox.Text = dc.Password;
                 poolUrlBox.Text = dc.PoolUrl;
+                extraArgumentsBox.Text = dc.ExtraArgs;
             }
             else
             {
@@ -107,14 +117,18 @@ namespace ccminer_gui
                     usernameBox.Text = dc.Username;
                     passwordBox.Text = dc.Password;
                     poolUrlBox.Text = dc.PoolUrl;
+                    extraArgumentsBox.Text = dc.ExtraArgs;
                 }
             }
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
+            lastAcceptedShares = 0;
+            lastRejectedShares = 0;
+
             _customConfig = new CustomConfig();
-            _customConfig.SetConfig(intensityBox.Text, usernameBox.Text, passwordBox.Text, poolUrlBox.Text, Convert.ToInt32(gpuStatsBox.Value), algorithmBox.Text);
+            _customConfig.SetConfig(intensityBox.Text, usernameBox.Text, passwordBox.Text, poolUrlBox.Text, Convert.ToInt32(gpuStatsBox.Value), algorithmBox.Text, extraArgumentsBox.Text);
 
             using (FileStream fs = new FileStream(_path, FileMode.Create))
             {
@@ -149,6 +163,7 @@ namespace ccminer_gui
                 usernameBox.ReadOnly = true;
                 passwordBox.ReadOnly = true;
                 poolUrlBox.ReadOnly = true;
+                extraArgumentsBox.ReadOnly = true;
                 idleBox.Enabled = false;
             }
             else
@@ -163,6 +178,7 @@ namespace ccminer_gui
                 usernameBox.ReadOnly = false;
                 passwordBox.ReadOnly = false;
                 poolUrlBox.ReadOnly = false;
+                extraArgumentsBox.ReadOnly = false;
                 idleBox.Enabled = true;
             }
         }
@@ -221,55 +237,17 @@ namespace ccminer_gui
 
         private void Miner_Load(object sender, EventArgs e)
         {
-            _difficultySeries  = new Series("Block Difficulty")
-            {
-                XValueType = ChartValueType.Time,
-                ChartType = SeriesChartType.Spline,
-                Color = Color.Orange,
-                BorderWidth = 2,
-            };
-
-            _hashrateSeries = new Series("Hashrate (kH/s)")
-            {
-                XValueType = ChartValueType.Time,
-                ChartType = SeriesChartType.Spline,
-                Color = Color.Purple,
-                BorderWidth = 2,
-            };
-
-            _difficultySeries.Points.Add(new DataPoint(DateTime.Now.ToOADate(), 0));
-            _hashrateSeries.Points.Add(new DataPoint(DateTime.Now.ToOADate(), 0));
-
-            chart1.Series.Add(_difficultySeries);
-            chart1.Series.Add(_hashrateSeries);
-
-            _acceptedSeries = new Series("Accepted Shares")
-            {
-                XValueType = ChartValueType.Time,
-                ChartType = SeriesChartType.Line,
-                Color = Color.Green,
-                BorderWidth = 2,
-            };
-
-            _staleSeries = new Series("Stale Shares")
-            {
-                XValueType = ChartValueType.Time,
-                ChartType = SeriesChartType.Line,
-                Color = Color.Red,
-                BorderWidth = 2,
-            };
-
-            _acceptedSeries.Points.Add(new DataPoint(DateTime.Now.ToOADate(), 0));
-            _staleSeries.Points.Add(new DataPoint(DateTime.Now.ToOADate(), 0));
-
-            chart2.Series.Add(_acceptedSeries);
-            chart2.Series.Add(_staleSeries);
+            //for initialising the chart (otherwise strange artifacts show up)
+            chaStat.Series[0].Points.Add(new DataPoint(DateTime.Now.ToOADate(), 0));
+            chaStat.Series[1].Points.Add(new DataPoint(DateTime.Now.ToOADate(), 0));
+            chaStat.Series[2].Points.Add(new DataPoint(DateTime.Now.ToOADate(), 0));
 
             chartTimer.Tick += ChartTimer_Tick;
-            chartTimer.Interval = 5000;
+            chartTimer.Interval = 60000;
 
             chartTimer.Start();
         }
+
 
         private void ChartTimer_Tick(object sender, EventArgs e)
         {
@@ -277,36 +255,171 @@ namespace ccminer_gui
 
             var time = DateTime.Now;
 
-            _hashrateSeries.Points.Add(new DataPoint(time.ToOADate(), Convert.ToDouble(report.TotalHashrate * 1000)));
-            _difficultySeries.Points.Add(new DataPoint(time.ToOADate(), Convert.ToDouble(report.BlockDifficulty)));
-            _acceptedSeries.Points.Add(new DataPoint(time.ToOADate(), Convert.ToDouble(report.AcceptedShares)));
-            _staleSeries.Points.Add(new DataPoint(time.ToOADate(), Convert.ToDouble(report.StaleShares)));
+            int acceptedShares = report.AcceptedShares - lastAcceptedShares;
+            int rejectedShares = report.StaleShares - lastRejectedShares;
+
+            if (acceptedShares > 0)
+            {
+                chaStat.Series[0].Points.Add(new DataPoint(time.ToOADate(), acceptedShares));
+            }
+
+            if (rejectedShares > 0)
+            {
+                chaStat.Series[1].Points.Add(new DataPoint(time.ToOADate(), rejectedShares));
+            }
+
+            chaStat.Series[4].Points.Add(new DataPoint(time.ToOADate(), Convert.ToInt32(report.StratumDifficulty)));
+
+            int count = chaStat.Series[0].Points.Count;
+            int start = chaStat.Series[0].Points.Count - 5;
+
+            start = start < 0 ? 0 : start;
+            double avg = 0;
+            int found = 5;
+            DateTime avgStart = time.AddMinutes(-5);
+            for (int i = start; i < count; i++)
+            {
+                if (chaStat.Series[0].Points[i].XValue >= avgStart.ToOADate())
+                {
+                    avg += chaStat.Series[0].Points[i].YValues[0];
+                }
+            }
+            avg = avg / found;
+            chaStat.Series[3].Points.Add(new DataPoint(time.ToOADate(), avg));
 
             DateTime scroll = time.AddHours(-1);
+            chaStat.ChartAreas[0].AxisX.Minimum = scroll.ToOADate();
+            chaStat.ChartAreas[0].AxisX.Maximum = DateTime.Now.AddMinutes(1).ToOADate();
 
-            chart1.ChartAreas[0].AxisX.Minimum = scroll.ToOADate();
-            chart1.ChartAreas[0].AxisX.Maximum = DateTime.Now.AddMinutes(1).ToOADate();
-
-            chart2.ChartAreas[0].AxisX.Minimum = scroll.ToOADate();
-            chart2.ChartAreas[0].AxisX.Maximum = DateTime.Now.AddMinutes(1).ToOADate();
-
-            if (_hashrateSeries.Points.Count > 720)
+            foreach (Series ser in chaStat.Series)
             {
-                _hashrateSeries.Points.RemoveAt(0);
-            }
-            if (_difficultySeries.Points.Count > 720)
-            {
-                _difficultySeries.Points.RemoveAt(0);
+
             }
 
-            if (_acceptedSeries.Points.Count > 720)
+
+            lastAcceptedShares = report.AcceptedShares;
+            lastRejectedShares = report.StaleShares;
+        }
+
+        private async void rvnTimer_Tick(object sender, EventArgs e)
+        {
+            try
             {
-                _acceptedSeries.Points.RemoveAt(0);
+                DateTime time = DateTime.Now;
+                time = time.AddSeconds(time.Second * -1);
+                DateTime scroll = time.AddDays(-1);
+
+                //WebClient client = new WebClient();
+                //string data = client.DownloadString("https://api.coingecko.com/api/v3/coins/ravencoin?localization=false");
+
+                string data = await GetCoinGeckoAPI("ravencoin");
+
+                dynamic dyn = JsonConvert.DeserializeObject(data);
+
+                if (dyn.market_data != null)
+                {
+                    if (dyn.market_data.current_price != null)
+                    {
+                        if (dyn.market_data.current_price.usd != null)
+                        {
+                            string value = (string)dyn.market_data.current_price.usd;
+                            double dValue = Convert.ToDouble(value, CultureInfo.InvariantCulture);
+
+                            chaRVN.Series[0].Points.Add(new DataPoint(time.ToOADate(), dValue));
+
+                            rvnPriceLbl.Text = string.Format("${0:F5}", dValue);
+                        }
+                    }
+                }
+
+                data = await GetCoinGeckoAPI("bitcoin");
+
+                dyn = JsonConvert.DeserializeObject(data);
+
+                if (dyn.market_data != null)
+                {
+                    if (dyn.market_data.current_price != null)
+                    {
+                        if (dyn.market_data.current_price.usd != null)
+                        {
+                            string value = (string)dyn.market_data.current_price.usd;
+                            double dValue = Convert.ToDouble(value, CultureInfo.InvariantCulture);
+
+                            btcPriceLbl.Text = string.Format("${0:F1}", dValue);
+                        }
+                    }
+                }
+
+                data = await GetCoinGeckoAPI("litecoin");
+
+                dyn = JsonConvert.DeserializeObject(data);
+
+                if (dyn.market_data != null)
+                {
+                    if (dyn.market_data.current_price != null)
+                    {
+                        if (dyn.market_data.current_price.usd != null)
+                        {
+                            string value = (string)dyn.market_data.current_price.usd;
+                            double dValue = Convert.ToDouble(value, CultureInfo.InvariantCulture);
+
+                            ltcPriceLbl.Text = string.Format("${0:F1}", dValue);
+                        }
+                    }
+                }
+
+                data = await GetCoinGeckoAPI("ethereum");
+
+                dyn = JsonConvert.DeserializeObject(data);
+
+                if (dyn.market_data != null)
+                {
+                    if (dyn.market_data.current_price != null)
+                    {
+                        if (dyn.market_data.current_price.usd != null)
+                        {
+                            string value = (string)dyn.market_data.current_price.usd;
+                            double dValue = Convert.ToDouble(value, CultureInfo.InvariantCulture);
+
+                            ethPriceLbl.Text = string.Format("${0:F1}", dValue);
+                        }
+                    }
+                }
+
+                chaRVN.ChartAreas[0].AxisX.Minimum = scroll.ToOADate();
+                chaRVN.ChartAreas[0].AxisX.Maximum = DateTime.Now.AddMinutes(1).ToOADate();
+
+                DataPoint dpmin = chaRVN.Series[0].Points.FindMinByValue("Y1");
+                DataPoint dpmax = chaRVN.Series[0].Points.FindMaxByValue("Y1");
+
+                double min = (dpmin.YValues[0] * 100) * 0.85D;
+                double max = (dpmax.YValues[0] * 100) * 1.15D;
+
+                chaRVN.ChartAreas[0].AxisY.Minimum = Math.Round(min / 100, 3, MidpointRounding.AwayFromZero);
+                chaRVN.ChartAreas[0].AxisY.Maximum = Math.Round(max / 100, 3, MidpointRounding.AwayFromZero);
+
+                if (chaRVN.Series[0].Points.Count > 8640)
+                {
+                    chaRVN.Series[0].Points.RemoveAt(0);
+                }
+
             }
-            if (_staleSeries.Points.Count > 720)
+            catch
             {
-                _staleSeries.Points.RemoveAt(0);
+
             }
+        }
+
+        private async Task<string> GetCoinGeckoAPI(string coinID)
+        {
+            string data = "ERROR";
+            WebClient client = new WebClient();
+            await Task.Run(() =>
+            {
+                data = client.DownloadString("https://api.coingecko.com/api/v3/coins/" + coinID + "?localization=false");
+            });
+
+            return data;
         }
     }
 }

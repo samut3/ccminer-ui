@@ -29,10 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.algorithmBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -65,27 +71,41 @@
             this.blockLabel = new System.Windows.Forms.Label();
             this.stratumDifficultyLabel = new System.Windows.Forms.Label();
             this.blockDifficultyLabel = new System.Windows.Forms.Label();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chaStat = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartTimer = new System.Windows.Forms.Timer(this.components);
-            this.chart2 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chaRVN = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.extraArgumentsBox = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.pingLabel = new System.Windows.Forms.Label();
+            this.rvnTimer = new System.Windows.Forms.Timer(this.components);
+            this.label14 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.rvnPriceLbl = new System.Windows.Forms.Label();
+            this.btcPriceLbl = new System.Windows.Forms.Label();
+            this.ltcPriceLbl = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.ethPriceLbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gpuStatsBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chaStat)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chaRVN)).BeginInit();
             this.SuspendLayout();
             // 
             // algorithmBox
             // 
             this.algorithmBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.algorithmBox.FormattingEnabled = true;
-            this.algorithmBox.Location = new System.Drawing.Point(12, 25);
+            this.algorithmBox.Location = new System.Drawing.Point(12, 24);
             this.algorithmBox.Name = "algorithmBox";
-            this.algorithmBox.Size = new System.Drawing.Size(206, 21);
+            this.algorithmBox.Size = new System.Drawing.Size(400, 21);
             this.algorithmBox.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 9);
+            this.label1.Location = new System.Drawing.Point(9, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 13);
             this.label1.TabIndex = 1;
@@ -104,20 +124,20 @@
             // 
             this.usernameBox.Location = new System.Drawing.Point(12, 69);
             this.usernameBox.Name = "usernameBox";
-            this.usernameBox.Size = new System.Drawing.Size(370, 20);
+            this.usernameBox.Size = new System.Drawing.Size(400, 20);
             this.usernameBox.TabIndex = 3;
             // 
             // passwordBox
             // 
-            this.passwordBox.Location = new System.Drawing.Point(388, 69);
+            this.passwordBox.Location = new System.Drawing.Point(418, 69);
             this.passwordBox.Name = "passwordBox";
-            this.passwordBox.Size = new System.Drawing.Size(145, 20);
+            this.passwordBox.Size = new System.Drawing.Size(400, 20);
             this.passwordBox.TabIndex = 4;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(385, 53);
+            this.label3.Location = new System.Drawing.Point(415, 53);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 13);
             this.label3.TabIndex = 5;
@@ -125,15 +145,15 @@
             // 
             // poolUrlBox
             // 
-            this.poolUrlBox.Location = new System.Drawing.Point(12, 113);
+            this.poolUrlBox.Location = new System.Drawing.Point(824, 69);
             this.poolUrlBox.Name = "poolUrlBox";
-            this.poolUrlBox.Size = new System.Drawing.Size(521, 20);
+            this.poolUrlBox.Size = new System.Drawing.Size(400, 20);
             this.poolUrlBox.TabIndex = 7;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 97);
+            this.label4.Location = new System.Drawing.Point(821, 53);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 13);
             this.label4.TabIndex = 6;
@@ -141,7 +161,7 @@
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(459, 144);
+            this.startButton.Location = new System.Drawing.Point(1149, 139);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(75, 23);
             this.startButton.TabIndex = 8;
@@ -151,16 +171,16 @@
             // 
             // intensityBox
             // 
-            this.intensityBox.Location = new System.Drawing.Point(224, 25);
+            this.intensityBox.Location = new System.Drawing.Point(418, 24);
             this.intensityBox.Name = "intensityBox";
-            this.intensityBox.Size = new System.Drawing.Size(158, 20);
+            this.intensityBox.Size = new System.Drawing.Size(400, 20);
             this.intensityBox.TabIndex = 9;
             this.intensityBox.Text = "0";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(221, 9);
+            this.label5.Location = new System.Drawing.Point(415, 8);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(141, 13);
             this.label5.TabIndex = 10;
@@ -168,7 +188,7 @@
             // 
             // gpuStatsBox
             // 
-            this.gpuStatsBox.Location = new System.Drawing.Point(388, 25);
+            this.gpuStatsBox.Location = new System.Drawing.Point(824, 24);
             this.gpuStatsBox.Maximum = new decimal(new int[] {
             600,
             0,
@@ -180,7 +200,7 @@
             0,
             0});
             this.gpuStatsBox.Name = "gpuStatsBox";
-            this.gpuStatsBox.Size = new System.Drawing.Size(146, 20);
+            this.gpuStatsBox.Size = new System.Drawing.Size(400, 20);
             this.gpuStatsBox.TabIndex = 11;
             this.gpuStatsBox.Value = new decimal(new int[] {
             60,
@@ -191,7 +211,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(385, 9);
+            this.label6.Location = new System.Drawing.Point(821, 8);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(120, 13);
             this.label6.TabIndex = 12;
@@ -218,7 +238,7 @@
             // idleBox
             // 
             this.idleBox.AutoSize = true;
-            this.idleBox.Location = new System.Drawing.Point(315, 148);
+            this.idleBox.Location = new System.Drawing.Point(1005, 143);
             this.idleBox.Name = "idleBox";
             this.idleBox.Size = new System.Drawing.Size(138, 17);
             this.idleBox.TabIndex = 16;
@@ -227,14 +247,14 @@
             // 
             // listBox1
             // 
-            this.listBox1.BackColor = System.Drawing.Color.Black;
+            this.listBox1.BackColor = System.Drawing.Color.White;
             this.listBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.listBox1.ForeColor = System.Drawing.Color.White;
+            this.listBox1.ForeColor = System.Drawing.Color.Black;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(0, 575);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(545, 119);
+            this.listBox1.Size = new System.Drawing.Size(1230, 119);
             this.listBox1.TabIndex = 17;
             // 
             // timer1
@@ -263,7 +283,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(312, 173);
+            this.label9.Location = new System.Drawing.Point(1073, 173);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(70, 13);
             this.label9.TabIndex = 20;
@@ -272,7 +292,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(312, 191);
+            this.label10.Location = new System.Drawing.Point(1073, 191);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(92, 13);
             this.label10.TabIndex = 21;
@@ -281,16 +301,16 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(312, 209);
+            this.label11.Location = new System.Drawing.Point(1073, 209);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(70, 13);
+            this.label11.Size = new System.Drawing.Size(89, 13);
             this.label11.TabIndex = 22;
-            this.label11.Text = "Stale Shares:";
+            this.label11.Text = "Rejected Shares:";
             // 
             // totalSharesLabel
             // 
             this.totalSharesLabel.AutoSize = true;
-            this.totalSharesLabel.Location = new System.Drawing.Point(432, 173);
+            this.totalSharesLabel.Location = new System.Drawing.Point(1171, 173);
             this.totalSharesLabel.Name = "totalSharesLabel";
             this.totalSharesLabel.Size = new System.Drawing.Size(13, 13);
             this.totalSharesLabel.TabIndex = 23;
@@ -299,7 +319,7 @@
             // acceptedSharesLabel
             // 
             this.acceptedSharesLabel.AutoSize = true;
-            this.acceptedSharesLabel.Location = new System.Drawing.Point(432, 191);
+            this.acceptedSharesLabel.Location = new System.Drawing.Point(1171, 191);
             this.acceptedSharesLabel.Name = "acceptedSharesLabel";
             this.acceptedSharesLabel.Size = new System.Drawing.Size(13, 13);
             this.acceptedSharesLabel.TabIndex = 24;
@@ -308,7 +328,7 @@
             // staleSharesLabel
             // 
             this.staleSharesLabel.AutoSize = true;
-            this.staleSharesLabel.Location = new System.Drawing.Point(432, 209);
+            this.staleSharesLabel.Location = new System.Drawing.Point(1171, 209);
             this.staleSharesLabel.Name = "staleSharesLabel";
             this.staleSharesLabel.Size = new System.Drawing.Size(13, 13);
             this.staleSharesLabel.TabIndex = 25;
@@ -368,55 +388,246 @@
             this.blockDifficultyLabel.TabIndex = 31;
             this.blockDifficultyLabel.Text = "0";
             // 
-            // chart1
+            // chaStat
             // 
-            this.chart1.BackColor = System.Drawing.SystemColors.Control;
-            this.chart1.BackSecondaryColor = System.Drawing.SystemColors.Control;
-            this.chart1.BorderlineColor = System.Drawing.SystemColors.Control;
-            chartArea2.BackColor = System.Drawing.SystemColors.Control;
-            chartArea2.BorderColor = System.Drawing.SystemColors.Control;
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.BackColor = System.Drawing.SystemColors.Control;
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
-            this.chart1.Location = new System.Drawing.Point(0, 225);
-            this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(546, 170);
-            this.chart1.TabIndex = 32;
-            this.chart1.Text = "chart1";
+            this.chaStat.BackColor = System.Drawing.SystemColors.Control;
+            this.chaStat.BackSecondaryColor = System.Drawing.SystemColors.Control;
+            this.chaStat.BorderlineColor = System.Drawing.SystemColors.Control;
+            chartArea1.BackColor = System.Drawing.SystemColors.Control;
+            chartArea1.BackSecondaryColor = System.Drawing.Color.Gray;
+            chartArea1.BorderColor = System.Drawing.Color.Gray;
+            chartArea1.Name = "ChartArea1";
+            this.chaStat.ChartAreas.Add(chartArea1);
+            legend1.BackColor = System.Drawing.SystemColors.Control;
+            legend1.Name = "Legend1";
+            this.chaStat.Legends.Add(legend1);
+            this.chaStat.Location = new System.Drawing.Point(0, 225);
+            this.chaStat.Name = "chaStat";
+            this.chaStat.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
+            series1.BorderWidth = 3;
+            series1.ChartArea = "ChartArea1";
+            series1.Color = System.Drawing.Color.Lime;
+            series1.IsValueShownAsLabel = true;
+            series1.Legend = "Legend1";
+            series1.Name = "Accepted";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series1.YValuesPerPoint = 6;
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            series2.BorderWidth = 3;
+            series2.ChartArea = "ChartArea1";
+            series2.Color = System.Drawing.Color.Yellow;
+            series2.IsValueShownAsLabel = true;
+            series2.Legend = "Legend1";
+            series2.Name = "Stales";
+            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            series3.ChartArea = "ChartArea1";
+            series3.Color = System.Drawing.Color.Red;
+            series3.IsValueShownAsLabel = true;
+            series3.Legend = "Legend1";
+            series3.Name = "Errors";
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            series4.BorderWidth = 3;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Color = System.Drawing.Color.DarkGreen;
+            series4.Legend = "Legend1";
+            series4.Name = "5M avg.";
+            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series4.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            series5.BorderWidth = 2;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StepLine;
+            series5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            series5.Legend = "Legend1";
+            series5.Name = "Stratum Diff";
+            series5.ShadowColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series5.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            this.chaStat.Series.Add(series1);
+            this.chaStat.Series.Add(series2);
+            this.chaStat.Series.Add(series3);
+            this.chaStat.Series.Add(series4);
+            this.chaStat.Series.Add(series5);
+            this.chaStat.Size = new System.Drawing.Size(1230, 170);
+            this.chaStat.TabIndex = 32;
+            this.chaStat.Text = "chaStat";
             // 
             // chartTimer
             // 
             this.chartTimer.Enabled = true;
             this.chartTimer.Interval = 60000;
             // 
-            // chart2
+            // chaRVN
             // 
-            this.chart2.BackColor = System.Drawing.SystemColors.Control;
-            this.chart2.BackSecondaryColor = System.Drawing.SystemColors.Control;
-            this.chart2.BorderlineColor = System.Drawing.SystemColors.Control;
-            chartArea3.BackColor = System.Drawing.SystemColors.Control;
-            chartArea3.BorderColor = System.Drawing.SystemColors.Control;
-            chartArea3.Name = "ChartArea1";
-            this.chart2.ChartAreas.Add(chartArea3);
-            legend3.BackColor = System.Drawing.SystemColors.Control;
-            legend3.Name = "Legend1";
-            this.chart2.Legends.Add(legend3);
-            this.chart2.Location = new System.Drawing.Point(0, 401);
-            this.chart2.Name = "chart2";
-            this.chart2.Size = new System.Drawing.Size(546, 170);
-            this.chart2.TabIndex = 33;
-            this.chart2.Text = "chart2";
+            this.chaRVN.BackColor = System.Drawing.SystemColors.Control;
+            this.chaRVN.BackSecondaryColor = System.Drawing.SystemColors.Control;
+            this.chaRVN.BorderlineColor = System.Drawing.SystemColors.Control;
+            chartArea2.BackColor = System.Drawing.SystemColors.Control;
+            chartArea2.BorderColor = System.Drawing.SystemColors.Control;
+            chartArea2.Name = "ChartArea1";
+            this.chaRVN.ChartAreas.Add(chartArea2);
+            legend2.BackColor = System.Drawing.SystemColors.Control;
+            legend2.Name = "Legend1";
+            this.chaRVN.Legends.Add(legend2);
+            this.chaRVN.Location = new System.Drawing.Point(0, 401);
+            this.chaRVN.Name = "chaRVN";
+            series6.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            series6.BorderWidth = 2;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            series6.Legend = "Legend1";
+            series6.Name = "RVN -> USD";
+            series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            this.chaRVN.Series.Add(series6);
+            this.chaRVN.Size = new System.Drawing.Size(1230, 170);
+            this.chaRVN.TabIndex = 33;
+            this.chaRVN.Text = "chart2";
+            // 
+            // extraArgumentsBox
+            // 
+            this.extraArgumentsBox.Location = new System.Drawing.Point(12, 113);
+            this.extraArgumentsBox.Name = "extraArgumentsBox";
+            this.extraArgumentsBox.Size = new System.Drawing.Size(1212, 20);
+            this.extraArgumentsBox.TabIndex = 34;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(9, 97);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(86, 13);
+            this.label12.TabIndex = 35;
+            this.label12.Text = "Extra arguments:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(198, 149);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(31, 13);
+            this.label13.TabIndex = 36;
+            this.label13.Text = "Ping:";
+            // 
+            // pingLabel
+            // 
+            this.pingLabel.AutoSize = true;
+            this.pingLabel.Location = new System.Drawing.Point(235, 149);
+            this.pingLabel.Name = "pingLabel";
+            this.pingLabel.Size = new System.Drawing.Size(29, 13);
+            this.pingLabel.TabIndex = 37;
+            this.pingLabel.Text = "0 ms";
+            // 
+            // rvnTimer
+            // 
+            this.rvnTimer.Enabled = true;
+            this.rvnTimer.Interval = 10000;
+            this.rvnTimer.Tick += new System.EventHandler(this.rvnTimer_Tick);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(198, 173);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(73, 13);
+            this.label14.TabIndex = 38;
+            this.label14.Text = "Prices in USD";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(198, 191);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(33, 13);
+            this.label20.TabIndex = 39;
+            this.label20.Text = "RVN:";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(198, 204);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(31, 13);
+            this.label21.TabIndex = 40;
+            this.label21.Text = "BTC:";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(198, 217);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(30, 13);
+            this.label22.TabIndex = 41;
+            this.label22.Text = "LTC:";
+            // 
+            // rvnPriceLbl
+            // 
+            this.rvnPriceLbl.AutoSize = true;
+            this.rvnPriceLbl.Location = new System.Drawing.Point(237, 191);
+            this.rvnPriceLbl.Name = "rvnPriceLbl";
+            this.rvnPriceLbl.Size = new System.Drawing.Size(52, 13);
+            this.rvnPriceLbl.TabIndex = 42;
+            this.rvnPriceLbl.Text = "$0.00000";
+            // 
+            // btcPriceLbl
+            // 
+            this.btcPriceLbl.AutoSize = true;
+            this.btcPriceLbl.Location = new System.Drawing.Point(237, 204);
+            this.btcPriceLbl.Name = "btcPriceLbl";
+            this.btcPriceLbl.Size = new System.Drawing.Size(28, 13);
+            this.btcPriceLbl.TabIndex = 43;
+            this.btcPriceLbl.Text = "$0.0";
+            // 
+            // ltcPriceLbl
+            // 
+            this.ltcPriceLbl.AutoSize = true;
+            this.ltcPriceLbl.Location = new System.Drawing.Point(237, 217);
+            this.ltcPriceLbl.Name = "ltcPriceLbl";
+            this.ltcPriceLbl.Size = new System.Drawing.Size(28, 13);
+            this.ltcPriceLbl.TabIndex = 44;
+            this.ltcPriceLbl.Text = "$0.0";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(291, 191);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(32, 13);
+            this.label18.TabIndex = 45;
+            this.label18.Text = "ETH:";
+            // 
+            // ethPriceLbl
+            // 
+            this.ethPriceLbl.AutoSize = true;
+            this.ethPriceLbl.Location = new System.Drawing.Point(329, 191);
+            this.ethPriceLbl.Name = "ethPriceLbl";
+            this.ethPriceLbl.Size = new System.Drawing.Size(28, 13);
+            this.ethPriceLbl.TabIndex = 46;
+            this.ethPriceLbl.Text = "$0.0";
             // 
             // Miner
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(545, 694);
-            this.Controls.Add(this.chart2);
+            this.ClientSize = new System.Drawing.Size(1230, 694);
+            this.Controls.Add(this.ethPriceLbl);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.ltcPriceLbl);
+            this.Controls.Add(this.btcPriceLbl);
+            this.Controls.Add(this.rvnPriceLbl);
+            this.Controls.Add(this.label22);
+            this.Controls.Add(this.label21);
+            this.Controls.Add(this.label20);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.pingLabel);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.extraArgumentsBox);
+            this.Controls.Add(this.chaRVN);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.chart1);
+            this.Controls.Add(this.chaStat);
             this.Controls.Add(this.blockDifficultyLabel);
             this.Controls.Add(this.stratumDifficultyLabel);
             this.Controls.Add(this.blockLabel);
@@ -448,14 +659,16 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.algorithmBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Miner";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CCMiner GUI";
+            this.Text = "z-enemy GUI";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Miner_FormClosing);
             this.Load += new System.EventHandler(this.Miner_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gpuStatsBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chaStat)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chaRVN)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -495,9 +708,23 @@
         private System.Windows.Forms.Label blockLabel;
         private System.Windows.Forms.Label stratumDifficultyLabel;
         private System.Windows.Forms.Label blockDifficultyLabel;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chaStat;
         private System.Windows.Forms.Timer chartTimer;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart2;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chaRVN;
+        private System.Windows.Forms.TextBox extraArgumentsBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label pingLabel;
+        private System.Windows.Forms.Timer rvnTimer;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label rvnPriceLbl;
+        private System.Windows.Forms.Label btcPriceLbl;
+        private System.Windows.Forms.Label ltcPriceLbl;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label ethPriceLbl;
     }
 }
 

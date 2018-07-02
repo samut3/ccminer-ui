@@ -4,12 +4,14 @@
     {
         public string Intensity => "19.5";
 
-        public string Username => "6zqMHRmL3UsFcuhCkAiff8NPUYDG3s7DbJ";
+        public string Username => "R9faG5R4n5SWeQkZyuiagqhyiFJhCLum2g";
         public string Password => "x";
-        public string PoolUrl => "stratum+tcp://ftc.p2pool.leblancnet.us:19327";
+        public string PoolUrl => "stratum+tcp://eu.ravenminer.com:2222";
 
         public int StatsAvg => 60;
 
-        public string Algorithm => "FeatherCoin";
+        public string Algorithm => "x16r";
+
+        public string ExtraArgs => "";
     }
 }

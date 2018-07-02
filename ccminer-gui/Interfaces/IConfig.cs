@@ -8,5 +8,6 @@
         string PoolUrl { get; }
         int StatsAvg { get; }
         string Algorithm { get; }
+        string ExtraArgs { get; }
     }
 }

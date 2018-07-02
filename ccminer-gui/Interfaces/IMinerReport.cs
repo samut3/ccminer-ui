@@ -11,5 +11,6 @@
         decimal StratumDifficulty { get; }
         decimal BlockDifficulty { get; }
         int Block { get; }
+        int Ping { get; }
     }
 }

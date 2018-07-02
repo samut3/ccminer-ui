@@ -20,7 +20,7 @@ namespace ccminer_gui
 
             _algorithms = new List<Algorithm>()
             {
-                Algorithm.Create("bastion", "Joincoin"),
+                /*Algorithm.Create("bastion", "Joincoin"),
                 Algorithm.Create("bitcore", "Bitcore's Timetravel10"),
                 Algorithm.Create("blake", "Saffroncoin(Blake256)"),
                 Algorithm.Create("blakecoin", "Old Blake 256"),
@@ -70,15 +70,31 @@ namespace ccminer_gui
                 Algorithm.Create("x11evo", "Revolver"),
                 Algorithm.Create("x11", "DarkCoin"),
                 Algorithm.Create("x14", "X14Coin"),
-                Algorithm.Create("x15", "Halcyon"),
-                Algorithm.Create("x17", "X17"),
+                Algorithm.Create("x15", "Halcyon"),*/
+                Algorithm.Create("x16r", "x16r"),
+                Algorithm.Create("x16s", "x16s"),
+                Algorithm.Create("phi", "phi"),
+                Algorithm.Create("bitcore", "Bitcore"),
+                Algorithm.Create("x17", "x17"),
+                Algorithm.Create("vit", "Vitality"),
+                Algorithm.Create("Xevan", "Xevan"),
+                Algorithm.Create("tribus", "Tribus"),
+                Algorithm.Create("cll", "Cll"),
+                Algorithm.Create("skunk", "Skunk"),
+                Algorithm.Create("timetravel", "TimeTravel8"),
+                Algorithm.Create("poly", "Polytimos"),
+                Algorithm.Create("aeriumx", "AeriumX"),
+                Algorithm.Create("sonoa", "Sonoa"),
+                Algorithm.Create("phi2", "phi2"),
+                /*Algorithm.Create("x17", "X17"),
                 Algorithm.Create("x17", "X17"),
                 Algorithm.Create("vanilla", "Vanilla(Blake256)"),
                 Algorithm.Create("veltor", "VeltorCoin"),
                 Algorithm.Create("whirlpool", "Joincoin"),
                 Algorithm.Create("wildkeccak", "Boolberry(Stratum only)"),
-                Algorithm.Create("zr5", "ZiftrCoin"),
+                Algorithm.Create("zr5", "ZiftrCoin"),*/
             };
+            _algorithms.Sort((s1, s2) => s1.Name.CompareTo(s2.Name));
         }
 
         public string FindAlgorithmName(string algorithmName)

@@ -17,5 +17,7 @@ namespace ccminer_gui.Entities
         public decimal BlockDifficulty { get; set; }
 
         public int Block { get; set; }
+
+        public int Ping { get; set; }
     }
 }

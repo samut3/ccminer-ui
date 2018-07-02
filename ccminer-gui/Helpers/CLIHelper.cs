@@ -31,8 +31,8 @@ namespace ccminer_gui
                 };
 
                 process.EnableRaisingEvents = true;
-                if (psi.RedirectStandardOutput) process.OutputDataReceived += Cli_OutputDataReceived;
-                if (psi.RedirectStandardError) process.ErrorDataReceived += Cli_ErrorDataReceived;
+                if (psi.RedirectStandardOutput) process.OutputDataReceived += new DataReceivedEventHandler(Cli_OutputDataReceived);
+                if (psi.RedirectStandardError) process.ErrorDataReceived += new DataReceivedEventHandler(Cli_ErrorDataReceived);
                 process.StartInfo = psi;
                 process.Start();
                 if (psi.RedirectStandardOutput) process.BeginOutputReadLine();

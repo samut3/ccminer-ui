@@ -15,13 +15,16 @@ namespace ccminer_gui
 
         public string Algorithm { get; private set; }
 
-        public void SetConfig(string intensity, string username, string password, string poolurl, int statsavg, string algorithm)
+        public string ExtraArgs { get; private set; }
+
+        public void SetConfig(string intensity, string username, string password, string poolurl, int statsavg, string algorithm, string extraargs)
         {
             Intensity = intensity;
             Username = username;
             Password = password;
             PoolUrl = poolurl;
             StatsAvg = statsavg;
+            ExtraArgs = extraargs;
             // Find the algorithm.
             Algorithm = algorithm;
         }

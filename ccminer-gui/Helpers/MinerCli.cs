@@ -9,11 +9,14 @@ namespace ccminer_gui
     {
         public MinerCli()
         {
-            _stratumDifficulty = new Regex(@"Stratum difficulty set to (.+?) \(.*$");
-            _blockDifficulty = new Regex(@"block (.+?), diff (.+?)$");
-            _gpuMatch = new Regex(@"GPU #[0-9]:.+?,(.+?) (kH/s|MH/s)");
+            //_stratumDifficulty = new Regex(@"Stratum difficulty set to (.+?) \(.*$");
+            _stratumDifficulty = new Regex(@"New difficulty: (.+?) \(.*$");
 
-            _sharesMatch = new Regex(@"accepted: (.+?)/(.+?) \(diff.+?, (.+?) (kH/s|MH/s)");
+            _blockDifficulty = new Regex(@"Block (.+?), difficulty (.+?)$");
+            _gpuMatch = new Regex(@"GPU#[0-9]:.+?, (.+?)(kH/s|MH/s)");
+
+            //_sharesMatch = new Regex(@"accepted: (.+?)/(.+?) \(diff.+?, (.+?) (kH/s|MH/s)");
+            _sharesMatch = new Regex(@"Shares: (.+?) \(A:(.+?)%, R:(.+?)%\), Diff:(.+?), (.+?)(kH\/s|MH\/s), (.+?)ms -");
         }
 
         public MinerReport MinerReport
@@ -30,7 +33,7 @@ namespace ccminer_gui
 
         public void Run(IConfig config, string algorithm)
         {
-            Open(Path.Combine(Environment.CurrentDirectory, "ccminer-x64.exe"), new string[] {
+            Open(Path.Combine(Environment.CurrentDirectory, "z-enemy.exe"), new string[] {
                 "-N",
                 config.StatsAvg.ToString(),
                 "-i",
@@ -43,7 +46,8 @@ namespace ccminer_gui
                 config.Username,
                 "-p",
                 config.Password,
-                "--no-color"
+                "--no-color",
+                config.ExtraArgs
             });
             OutputDataReceived += MinerCli_OutputDataReceived;
         }
@@ -81,18 +85,25 @@ namespace ccminer_gui
             if (_sharesMatch.IsMatch(data))
             {
                 var match = _sharesMatch.Match(data);
-                _minerReport.AcceptedShares = Convert.ToInt32(match.Groups[1].Value);
-                _minerReport.TotalShares = Convert.ToInt32(match.Groups[2].Value);
+                _minerReport.TotalShares = Convert.ToInt32(match.Groups[1].Value);
+
+                float acceptedSharesPercentage = ((float)Convert.ToDecimal(match.Groups[2].Value)) / 100;
+
+                _minerReport.AcceptedShares = Convert.ToInt32(_minerReport.TotalShares * acceptedSharesPercentage);//Convert.ToInt32(match.Groups[1].Value);
+
+
                 _minerReport.StaleShares = _minerReport.TotalShares - _minerReport.AcceptedShares;
 
-                if (match.Groups[4].Value == "MH/s")
+                if (match.Groups[6].Value == "MH/s")
                 {
-                    _minerReport.TotalHashrate = Convert.ToDecimal(match.Groups[3].Value);
+                    _minerReport.TotalHashrate = Convert.ToDecimal(match.Groups[5].Value);
                 }
                 else
                 {
-                    _minerReport.TotalHashrate = (Convert.ToDecimal(match.Groups[3].Value) / 1000);
+                    _minerReport.TotalHashrate = (Convert.ToDecimal(match.Groups[5].Value) / 1000);
                 }
+
+                _minerReport.Ping = Convert.ToInt32(match.Groups[7].Value);
             }
         }
 
