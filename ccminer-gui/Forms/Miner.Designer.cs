@@ -511,7 +511,7 @@
             // rvnTimer
             // 
             this.rvnTimer.Enabled = true;
-            this.rvnTimer.Interval = 10000;
+            this.rvnTimer.Interval = 60000;
             this.rvnTimer.Tick += new System.EventHandler(this.rvnTimer_Tick);
             // 
             // label14

@@ -393,7 +393,7 @@ namespace ccminer_gui
                 chaRVN.ChartAreas[0].AxisY.Minimum = Math.Round(min / 100, 3, MidpointRounding.AwayFromZero);
                 chaRVN.ChartAreas[0].AxisY.Maximum = Math.Round(max / 100, 3, MidpointRounding.AwayFromZero);
 
-                if (chaRVN.Series[0].Points.Count > 8640)
+                if (chaRVN.Series[0].Points.Count > 1440)
                 {
                     chaRVN.Series[0].Points.RemoveAt(0);
                 }
